@@ -3,7 +3,7 @@ def reverse_list(l):
     """
     Reverses order of elements in list l.
     """
-    l.reverse
+    l.reverse()
     return l
 
 
@@ -17,7 +17,9 @@ def reverse_string(s):
     """
     Reverses order of characters in string s.
     """
-    return None
+    s.reverse()
+    return s
+
 
 
 def test_reverse_string():
@@ -31,8 +33,10 @@ def is_english_vowel(c):
     Returns True if c is an english vowel
     and False otherwise.
     """
-    return None
-
+    if c.lower in ('a', 'e', 'i', 'o', 'u'):
+        return True
+    else:
+	return False
 
 def test_is_english_vowel():
     assert is_english_vowel('a')
