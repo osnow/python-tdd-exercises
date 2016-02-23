@@ -36,7 +36,7 @@ def is_english_vowel(c):
     if c.lower in ('a', 'e', 'i', 'o', 'u'):
         return True
     else:
-    return False
+        return False
 
 def test_is_english_vowel():
     assert is_english_vowel('a')
@@ -62,6 +62,7 @@ def count_num_vowels(s):
     """
     Returns the number of vowels in a string s.
     """
+    
     return None
 
 
