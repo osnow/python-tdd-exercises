@@ -17,8 +17,8 @@ def reverse_string(s):
     """
     Reverses order of characters in string s.
     """
-    s.reverse()
-    return s
+    new_s = s[::-1]
+    return new_s
 
 
 
@@ -33,7 +33,8 @@ def is_english_vowel(c):
     Returns True if c is an english vowel
     and False otherwise.
     """
-    if c.lower in ('a', 'e', 'i', 'o', 'u'):
+    
+    if c in 'aeiouyAEIOUY':
         return True
     else:
         return False
@@ -62,8 +63,13 @@ def count_num_vowels(s):
     """
     Returns the number of vowels in a string s.
     """
-    
-    return None
+    s = s.lower()
+    count = 0 
+    for c in s:
+    	if c in "aeiouyAEIOUY":
+    		count += 1
+    	
+    return count
 
 
 def test_count_num_vowels():
@@ -85,7 +91,12 @@ def histogram(l):
     """
     Converts a list of integers into a simple string histogram.
     """
-    return None
+    s = ""
+    for x in l:
+    	s += ('#' * x) + '\n'
+    s.rstrip('\n')
+    return s 	
+    
 
 
 def test_histogram():
@@ -99,7 +110,8 @@ def get_word_lengths(s):
     Returns a list of integers representing
     the word lengths in string s.
     """
-    return None
+    
+    return [len(w) for w in s.split()]
 
 
 def test_get_word_lengths():
@@ -114,7 +126,7 @@ def find_longest_word(s):
     Returns the longest word in string s.
     In case there are several, return the first.
     """
-    return None
+    return max(s.split(), key=len)
 
 
 def test_find_longest_word():
@@ -131,7 +143,11 @@ def validate_dna(s):
     Return True if the DNA string only contains characters
     a, c, t, or g (lower or uppercase). False otherwise.
     """
-    return None
+    bases = 'acgtACGT'
+    if all(i in bases for i in s):
+    	return True
+    else:
+    	return False	
 
 
 def test_validate_dna():
@@ -148,7 +164,13 @@ def base_pair(c):
     of the base pair. If the base is not recognized,
     return 'unknown'.
     """
-    return None
+    c = c.lower()
+    bases = 'atcg'
+    complement = {"a":"t", "c":"g", "t":"a", "g":"c"}
+    if c in bases:
+    	return complement[c]
+    else:
+    	return "unknown"
 
 
 def test_base_pair():
@@ -171,7 +193,9 @@ def transcribe_dna_to_rna(s):
     Return string s with each letter T replaced by U.
     Result is always uppercase.
     """
-    return None
+    s = s.upper()
+    s =	s.replace("T", "U")
+    return s
 
 
 def test_transcribe_dna_to_rna():
@@ -186,7 +210,11 @@ def get_complement(s):
     Return the DNA complement in uppercase
     (A -> T, T-> A, C -> G, G-> C).
     """
-    return None
+    s = s.upper()
+    complement = {"A":"T", "C":"G", "T":"A", "G":"C"}
+    compl = [complement[base] for base in s] 
+    compl = "".join(compl)
+    return compl
 
 
 def test_get_complement():
@@ -201,7 +229,12 @@ def get_reverse_complement(s):
     Return the reverse complement of string s
     (complement reversed in order).
     """
-    return None
+    s = s.upper()
+    complement = {"A":"T", "C":"G", "T":"A", "G":"C"}
+    compl = [complement[base] for base in s] 
+    compl = "".join(compl)
+    
+    return compl[::-1]
 
 
 def test_get_reverse_complement():
@@ -215,7 +248,7 @@ def remove_substring(substring, string):
     """
     Returns string with all occurrences of substring removed.
     """
-    return None
+    return string.replace(substring, "")
 
 
 def test_remove_substring():
@@ -233,7 +266,14 @@ def get_position_indices(triplet, dna):
     in a DNA sequence. We start counting from 0
     and jump by 3 characters from one position to the next.
     """
-    return None
+    n = 3
+    triplets = [dna[i:i+n] for i in range(0, len(dna), n)]
+    indices = []
+    for index, value in enumerate(triplets):
+    	if value == triplet:
+        	indices.append(index)
+
+    return indices
 
 
 def test_get_position_indices():
@@ -244,7 +284,7 @@ def test_get_position_indices():
 # ------------------------------------------------------------------------------
 
 def get_3mer_usage_chart(s):
-    """
+	"""
     This routine implements a 'sliding window'
     and extracts all possible consecutive 3-mers.
     It counts how often they appear and returns
@@ -252,9 +292,18 @@ def get_3mer_usage_chart(s):
     The list is alphabetically sorted by the name
     of the 3-mer.
     """
-    return None
-
-
+	chart = []
+	for i in range(len(s) - 2):
+		threemer = s[i:i+3]
+		chart.append(threemer)
+	import collections 
+	counts = collections.Counter(chart)
+	counts = counts.items()
+	counts = sorted(counts, key=lambda x: x[0])
+	return counts
+	
+	
+	
 def test_get_3mer_usage_chart():
     s = 'CCGGAAGAGCTTACTTAGGAAGAA'
     result = []
@@ -283,7 +332,11 @@ def read_column(file_name, column_number):
     Reads column column_number from file file_name
     and returns the values as floats in a list.
     """
-    return None
+    values = []
+    for line in open(file_name):
+    	columns = line.split()
+    	values.append(float(columns[column_number - 1]))
+    return values
 
 
 def test_read_column():
@@ -321,6 +374,7 @@ def character_statistics(file_name):
     Use the isalpha() method to figure out
     whether the character is in the alphabet.
     """
+    
     return None
 
 
@@ -400,3 +454,23 @@ def pythagorean_triples(n):
 
 def test_pythagorean_triples():
     pass  # so far we do not test anything, check also test coverage
+
+#-------------------------------------------------------------------------------
+
+def targets(s):
+    target_values = []
+    for res in s:
+        if res in "PL":
+            target = "+1"
+        else:
+            target = "-1"
+        target_values.append(target)
+    return target_values
+
+
+
+def test_targets():
+	assert targets('iiiiiLPLPLPLPLPoooooooooooPLPLPLPL') == ['-1','-1','-1','-1','-1',\
+	'+1','+1','+1','+1','+1','+1','+1','+1','+1','+1','-1','-1','-1','-1','-1','-1','-1',\
+	'-1','-1','-1','-1','+1','+1','+1','+1','+1','+1','+1','+1']
+
